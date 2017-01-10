@@ -13,9 +13,9 @@ public class isBotThereListener extends AbstractRomiBotListener {
 	@Override
 	public void onChannelMessage(ChannelPrivMsg aMsg) {
 		if(aMsg.getText().contains(profile.getNick()+" here?")) {
-			queueAnswer(aMsg.getChannelName(), "yes "+aMsg.getSource().getNick()+", how can we help you today?");
+			queueAnswer(aMsg.getChannelName(), "yes "+aMsg.getSource().getNick()+", how can we help you today? (You may have to wait for some time until someone can answer.)");
 		} else if(aMsg.getText().contains(profile.getNick())) {
-			queueAnswer(aMsg.getChannelName(), "hi");
+			//queueAnswer(aMsg.getChannelName(), "hi");
 		}
 	}
 }
