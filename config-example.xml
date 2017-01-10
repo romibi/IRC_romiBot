@@ -1,0 +1,43 @@
+<config>
+	<profiles>
+		<profile id="romiBot" name="romiBot">
+			<nick>romibot</nick>
+			<password></password>
+			<SASLusername>romibot</SASLusername>
+			<SASLpassword></SASLpassword>
+		</profile>
+	</profiles>
+	<networks>
+		<network name="esper" enabled="false">
+			<profile ref="romiBot"/>
+			<servers>
+				<server>
+					<address>irc.esper.net</address>
+					<port>6667</port>
+					<ssl>false</ssl>
+				</server>
+			</servers>
+			<channels>
+				<channel>
+					<name>#romibi</name>
+				</channel>
+			</channels>
+		</network>
+		<network name="twitch" enabled="true">
+			<profile ref="romiBot" />
+			<customPassword>oauth:??????</customPassword>
+			<servers>
+				<server>
+					<address>irc.twitch.tv</address>
+					<port>6667</port>
+					<ssl>false</ssl>
+				</server>
+			</servers>
+			<channels>
+				<channel>
+					<name>#romibi</name>
+				</channel>
+			</channels>
+		</network>
+	</networks>
+</config>

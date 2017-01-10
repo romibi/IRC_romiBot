@@ -2,7 +2,6 @@ package ch.romibi.irc.romibot.listeners;
 
 import java.util.Random;
 
-import com.ircclouds.irc.api.Callback;
 import com.ircclouds.irc.api.IRCApi;
 import com.ircclouds.irc.api.listeners.VariousMessageListenerAdapter;
 
