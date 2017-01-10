@@ -3,6 +3,7 @@ package ch.romibi.irc.romibot;
 import java.io.File;
 import java.util.Scanner;
 
+import ch.romibi.irc.romibot.listeners.CommandListener;
 import ch.romibi.irc.romibot.listeners.isBotThereListener;
 
 public class Main {
@@ -16,6 +17,9 @@ public class Main {
 	public static void main(String[] args) {
 		bot = new RomiBot(Config.load(new File(CONFIG_FILE)));
 		bot.addListener(isBotThereListener.class);
+		bot.addListener(CommandListener.class);
+		
+		bot.start();
 		
 		scanner = new Scanner(System.in);
 		

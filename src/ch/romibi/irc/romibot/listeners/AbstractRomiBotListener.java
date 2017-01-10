@@ -13,12 +13,12 @@ public abstract class AbstractRomiBotListener extends VariousMessageListenerAdap
 	protected RomiBot bot;
 	protected CfgProfile profile;
 	
-	protected Callback<String> dummycallback= new Callback<String>() {
+	/* protected Callback<String> dummycallback= new Callback<String>() {
 		@Override
 		public void onSuccess(String aObject) {}
 		@Override
 		public void onFailure(Exception aExc) {}
-	};
+	}; */
 	
 	
 	public AbstractRomiBotListener(RomiBot bot, CfgProfile profile) {
@@ -35,7 +35,7 @@ public abstract class AbstractRomiBotListener extends VariousMessageListenerAdap
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
-		                getIRC().message(target, message, dummycallback);
+		                getIRC().message(target, message);
 		            }
 		        }, 
 		        new Random().nextInt(10000 - 1000 + 1) + 1000 

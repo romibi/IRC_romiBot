@@ -1,7 +1,5 @@
 package ch.romibi.irc.romibot.listeners;
 
-import java.util.Random;
-
 import com.ircclouds.irc.api.domain.messages.ChannelPrivMsg;
 
 import ch.romibi.irc.romibot.RomiBot;

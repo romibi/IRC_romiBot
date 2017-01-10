@@ -1,17 +1,20 @@
 package ch.romibi.irc.romibot;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+
 import com.ircclouds.irc.api.Callback;
 import com.ircclouds.irc.api.IRCApi;
 import com.ircclouds.irc.api.IRCApiImpl;
 import com.ircclouds.irc.api.IServerParameters;
 import com.ircclouds.irc.api.domain.IRCServer;
-import com.ircclouds.irc.api.listeners.IMessageListener;
 import com.ircclouds.irc.api.negotiators.SaslNegotiator;
 import com.ircclouds.irc.api.state.IIRCState;
 
@@ -20,17 +23,21 @@ import ch.romibi.irc.romibot.config.CfgNetwork;
 import ch.romibi.irc.romibot.config.CfgProfile;
 import ch.romibi.irc.romibot.config.CfgServer;
 import ch.romibi.irc.romibot.listeners.AbstractRomiBotListener;
-import ch.romibi.irc.romibot.listeners.isBotThereListener;
 
 
 public class RomiBot {
 	
 	private Config config;
 	private Map<CfgProfile, IRCApi> irclist = new HashMap<CfgProfile, IRCApi>();	
-	private Map<Object, CfgNetwork> cfgSessionMap = new HashMap<Object, CfgNetwork>();
+	//private Map<Object, CfgNetwork> cfgSessionMap = new HashMap<Object, CfgNetwork>();
+	public DB db;
 	
 	public RomiBot(Config pConfig) {
 		config = pConfig;
+	}
+	
+	public void start() {
+		db = DBMaker.fileDB(new File("store.db")).make();
 		for (final CfgNetwork net : config.getNetworks()) {
     		CfgProfile profile = net.getProfile();
     		CfgServer server = net.getServers().get(0);
@@ -71,6 +78,7 @@ public class RomiBot {
 				// TODO: handle exception
 			}
 		}
+		db.close();
 	}
 	
 	public IRCApi getIRCforProfile(CfgProfile profile) {
