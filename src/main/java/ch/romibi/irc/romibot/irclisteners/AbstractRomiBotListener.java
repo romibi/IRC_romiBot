@@ -2,6 +2,8 @@ package ch.romibi.irc.romibot.irclisteners;
 
 import java.util.Random;
 
+import org.mapdb.DB;
+
 import com.ircclouds.irc.api.IRCApi;
 import com.ircclouds.irc.api.listeners.VariousMessageListenerAdapter;
 
@@ -39,5 +41,9 @@ public abstract class AbstractRomiBotListener extends VariousMessageListenerAdap
 		        }, 
 		        new Random().nextInt(10000 - 1000 + 1) + 1000 
 		);
+	}
+	
+	public DB getDB() {
+		return bot.db;
 	}
 }

@@ -1,11 +1,11 @@
 package ch.romibi.irc.romibot.irclisteners;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
-
-import org.mapdb.Serializer;
+import java.util.Map;
+import java.util.Set;
 
 import com.ircclouds.irc.api.domain.IRCUser;
 import com.ircclouds.irc.api.domain.messages.ChannelPrivMsg;
@@ -13,11 +13,21 @@ import com.ircclouds.irc.api.domain.messages.UserPrivMsg;
 
 import ch.romibi.irc.romibot.RomiBot;
 import ch.romibi.irc.romibot.config.CfgProfile;
+import ch.romibi.irc.romibot.irclisteners.commands.Command;
+import ch.romibi.irc.romibot.irclisteners.commands.FactCommands;
+import ch.romibi.irc.romibot.irclisteners.commands.HelpCommand;
+import ch.romibi.irc.romibot.listeners.romibotEventListener;
+import ch.romibi.irc.romibot.listeners.romibotEventListener.type;
 
 public class CommandListener extends AbstractRomiBotListener {
-
+	List<Command> commands = new ArrayList<Command>();
+	Set<String> commandTypes = new HashSet<String>();
+	Map<type, List<romibotEventListener>> eventlisteners = new HashMap<type, List<romibotEventListener>>();
+	
 	public CommandListener(RomiBot bot, CfgProfile profile) {
 		super(bot, profile);
+		new HelpCommand(this);
+		new FactCommands(this);
 	}
 	
 	@Override
@@ -30,49 +40,37 @@ public class CommandListener extends AbstractRomiBotListener {
 		parseCommand(aMsg.getText(), aMsg.getToUser(), aMsg.getSource());
 	}
 	
-	
-	
 	private void parseCommand(String text, String answerTo, IRCUser source) {
-		String[] textElements = text.split(" ");
-		if(textElements[0].startsWith("!")) {
-			handleAction(textElements, answerTo, source);
-		}
-		if(textElements[0].startsWith("?")) {
-			handleFactRequest(textElements, answerTo, source);
-		}
-	}
-
-	private void handleFactRequest(String[] textElements, String answerTo, IRCUser source) {
-		if(textElements.length==1 || textElements.length==2) {
-			ConcurrentMap<String, String> map = bot.db.hashMap("facts", Serializer.STRING, Serializer.STRING).createOrOpen();
-			String text = map.get(textElements[0].substring(1));
-			if(textElements.length==2) {
-				text = textElements[1]+": "+text;
-			}
-			if(text!=null && text!="") {
-				getIRC().message(answerTo, text); //TODO: handle outgoing parsing
+		if(mayBeCommand(text)) {
+			for (Command command : commands) {
+				if(command.accept(text, answerTo, source, getIRC())) break;
 			}
 		}
 	}
 
-	private void handleAction(String[] textElements, String answerTo, IRCUser source) {
-		switch (textElements[0]) {
-		//TODO: access rules
-		case "!set":
-			List<String> list =  new LinkedList<String>(Arrays.asList(textElements));
-			list.remove(0);
-			list.remove(0);
-			String text = String.join(" ", list);
-			ConcurrentMap<String, String> map = bot.db.hashMap("facts", Serializer.STRING, Serializer.STRING).createOrOpen();
-			map.put(textElements[1], text);
-			break;
-		case "!help":
-			getIRC().message(answerTo, "Supported Commands: !set, !help");
-			break;
-		default:
-			if(source.getNick().equals("romibi")) {
-				getIRC().message(answerTo, "Unknown Command!");
+	private boolean mayBeCommand(String text) {
+		for (String string : commandTypes) {
+			if(text.startsWith(string)) return true;
+		}
+		return false;
+	}
+
+	public void register(Command command) {
+		if(eventlisteners.get(type.onRegister)!=null) {
+			for (romibotEventListener romibotEventListener : eventlisteners.get(type.onRegister)) {
+				romibotEventListener.onRegisterCommand(command);
 			}
 		}
+		commandTypes.addAll(command.getTypes());
+		commands.add(command);
+	}
+
+	public void registerForEvent(type eventtype, romibotEventListener eventlistener) {
+		List<romibotEventListener> list = eventlisteners.get(eventtype); 
+		if(list==null) {
+			list = new ArrayList<romibotEventListener>();
+		}
+		list.add(eventlistener);
+		eventlisteners.put(eventtype, list);
 	}
 }
