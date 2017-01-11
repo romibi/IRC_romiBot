@@ -43,7 +43,7 @@ public class RomiBot {
     		CfgServer server = net.getServers().get(0);
     		
 			if(!net.isEnabled()) { continue; }
-			IServerParameters params = getServerParams(net.getProfile().getNick(), Arrays.asList(profile.getNick()), net.getProfilePassword(), "IRC Api", "romibot", server.getAddress(), server.getPort(), server.useSSL());
+			IServerParameters params = getServerParams(net.getProfile().getNick(), Arrays.asList(profile.getNick()), net.getProfilePassword(), "romiBot", "romibot", server.getAddress(), server.getPort(), server.useSSL());
 			Callback<IIRCState> callback = new Callback<IIRCState>()
 	        {
 	            @Override
