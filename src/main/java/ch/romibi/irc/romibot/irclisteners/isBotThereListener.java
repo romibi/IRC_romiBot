@@ -1,9 +1,10 @@
-package ch.romibi.irc.romibot.listeners;
+package ch.romibi.irc.romibot.irclisteners;
 
 import com.ircclouds.irc.api.domain.messages.ChannelPrivMsg;
 
 import ch.romibi.irc.romibot.RomiBot;
 import ch.romibi.irc.romibot.config.CfgProfile;
+import ch.romibi.irc.romibot.irclisteners.AbstractRomiBotListener;
 
 public class isBotThereListener extends AbstractRomiBotListener {
 	public isBotThereListener(RomiBot bot, CfgProfile profile) {

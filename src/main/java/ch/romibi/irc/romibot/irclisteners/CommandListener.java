@@ -1,4 +1,4 @@
-package ch.romibi.irc.romibot.listeners;
+package ch.romibi.irc.romibot.irclisteners;
 
 import java.util.Arrays;
 import java.util.LinkedList;

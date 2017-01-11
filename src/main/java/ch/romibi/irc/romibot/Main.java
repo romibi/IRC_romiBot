@@ -3,8 +3,8 @@ package ch.romibi.irc.romibot;
 import java.io.File;
 import java.util.Scanner;
 
-import ch.romibi.irc.romibot.listeners.CommandListener;
-import ch.romibi.irc.romibot.listeners.isBotThereListener;
+import ch.romibi.irc.romibot.irclisteners.CommandListener;
+import ch.romibi.irc.romibot.irclisteners.isBotThereListener;
 
 public class Main {
 	private static final String CONFIG_FILE = "config.xml";

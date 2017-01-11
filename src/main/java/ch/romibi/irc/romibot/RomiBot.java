@@ -22,7 +22,7 @@ import ch.romibi.irc.romibot.config.CfgChannel;
 import ch.romibi.irc.romibot.config.CfgNetwork;
 import ch.romibi.irc.romibot.config.CfgProfile;
 import ch.romibi.irc.romibot.config.CfgServer;
-import ch.romibi.irc.romibot.listeners.AbstractRomiBotListener;
+import ch.romibi.irc.romibot.irclisteners.AbstractRomiBotListener;
 
 
 public class RomiBot {
