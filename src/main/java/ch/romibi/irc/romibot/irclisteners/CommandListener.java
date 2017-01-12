@@ -37,7 +37,7 @@ public class CommandListener extends AbstractRomiBotListener {
 	
 	@Override
 	public void onUserPrivMessage(UserPrivMsg aMsg) {
-		parseCommand(aMsg.getText(), aMsg.getToUser(), aMsg.getSource());
+		parseCommand(aMsg.getText(), aMsg.getSource().getNick(), aMsg.getSource());
 	}
 	
 	private void parseCommand(String text, String answerTo, IRCUser source) {
